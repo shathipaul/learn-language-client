@@ -1,4 +1,3 @@
-import { GoogleAuthProvider } from 'firebase/auth';
 import React from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -6,18 +5,14 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { UserIcon } from '@heroicons/react/24/solid'
 
 const Header = () => {
-    const { user, providerLogin } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
 
-    const googleProvider = new GoogleAuthProvider()
-
-    const handleGoogleLogIn = () => {
-        providerLogin(googleProvider)
-            .then(result => {
-                const user = result.user;
-                console.log(user);
-            })
-            .catch(error => console.log(error))
+    const handleLogOut = ()=> {
+        logOut()
+        .then( () => {})
+        .catch(error=> console.error(error))
     }
+
     return (
         <>
             <div className="navbar bg-base-100">
@@ -40,17 +35,27 @@ const Header = () => {
                         <Link to='/'>Courses</Link>
                         <Link className='ml-3' to='/blog'>Blog</Link>
                         <Link className='ml-3' to='/faq'>FAQ</Link>
-                        
+
 
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <button onClick={handleGoogleLogIn} className="btn">Login</button>
-                    <p>{user?.displayName}</p>
+                    {
+                        user?.uid ?
+                            <>
+                                <button onClick={handleLogOut} className="btn btn-outline">Log out</button>
+                                <p>{user?.displayName}</p>
+                            </>
+                            :
+                            <>
+                                <Link to='/login'><button className="btn btn-outline">Login</button></Link>
+                                <Link to='/register'><button className="btn btn-outline">Register</button></Link>
+                            </>
+                    }
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                { user.photoURL ?
+                                { user?.photoURL ?
                                     <img src={user.photoURL} alt="" />
                                     :
                                     <UserIcon className="h-6 w-6 text-blue-500" />
