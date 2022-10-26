@@ -1,7 +1,23 @@
+import { GoogleAuthProvider } from 'firebase/auth';
 import React from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import { UserIcon } from '@heroicons/react/24/solid'
 
 const Header = () => {
+    const { user, providerLogin } = useContext(AuthContext);
+
+    const googleProvider = new GoogleAuthProvider()
+
+    const handleGoogleLogIn = () => {
+        providerLogin(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => console.log(error))
+    }
     return (
         <>
             <div className="navbar bg-base-100">
@@ -11,9 +27,9 @@ const Header = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <Link to='/'>Courses</Link>
-                        <Link className='ml-2' to='/blog'>Blog</Link>
-                            
+                            <Link to='/'>Courses</Link>
+                            <Link className='ml-2' to='/blog'>Blog</Link>
+
                             <Link className='ml-2' to='/faq'>FAQ</Link>
                         </ul>
                     </div>
@@ -24,13 +40,22 @@ const Header = () => {
                         <Link to='/'>Courses</Link>
                         <Link className='ml-3' to='/blog'>Blog</Link>
                         <Link className='ml-3' to='/faq'>FAQ</Link>
+                        
+
                     </ul>
                 </div>
                 <div className="navbar-end">
+                    <button onClick={handleGoogleLogIn} className="btn">Login</button>
+                    <p>{user?.displayName}</p>
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                <img src="https://placeimg.com/80/80/people" />
+                                { user.photoURL ?
+                                    <img src={user.photoURL} alt="" />
+                                    :
+                                    <UserIcon className="h-6 w-6 text-blue-500" />
+                                }
+
                             </div>
                         </label>
                     </div>
