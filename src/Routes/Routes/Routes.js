@@ -22,11 +22,11 @@ export const routes = createBrowserRouter([
                 
             },
             {
-                path: 'courses/:id',
+                path: 'course/:id',
                 element: <SingleCourse></SingleCourse>
             },
             {
-                path: 'courses/:id',
+                path: '/',
                 element: <Category></Category>
             },
             {

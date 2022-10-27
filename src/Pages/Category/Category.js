@@ -16,7 +16,7 @@ const Category = () => {
         <div>
             {
              categories.map( category => <p className='p-2' key={category.id}>
-                <Link to={`/category/${category.id}`}>{category.name}</Link>
+                <Link to={`/languageDetail/${category.id}`}>{category.name}</Link>
              </p>)   
             }
         </div>
