@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Register = () => {
-    const {createUser} = useContext(AuthContext);
+    const [error, setError] = useState('');
+    const { createUser } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
-    const handleSubmit = event =>{
+    const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
         const name = form.name.value;
@@ -17,13 +18,17 @@ const Register = () => {
         console.log(name, email, password);
 
         createUser(email, password)
-        .then(result => {
-            const user = result.user;
-            console.log(user);
-            form.reset();
-            navigate('/');
-        })
-        .catch(error => console.error(error))
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                setError('')
+                form.reset();
+                navigate('/');
+            })
+            .catch(error => {
+                console.error(error);
+                setError(error.message);
+              })
     }
     return (
         <>
@@ -57,10 +62,13 @@ const Register = () => {
                                         <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                     </label>
                                 </div>
+                                <div className="form-control text-red-600">
+                                    <p>{error}</p>
+                                </div>
                                 <div className="form-control mt-6">
                                     <button className="btn btn-primary">Login</button>
                                 </div>
-                               
+
                             </div>
                         </form>
                     </div>

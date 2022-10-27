@@ -2,11 +2,16 @@ import React from 'react';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Login = () => {
+    const [error, setError] = useState('');
     const {providerLogin, signIn} = useContext(AuthContext);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
 
     const googleProvider = new GoogleAuthProvider()
 
@@ -15,8 +20,11 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                navigate('/')
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+              console.error(error);
+            })
     }
 
     const handleSignIn = event =>{
@@ -31,9 +39,13 @@ const Login = () => {
             const user = result.user;
             console.log(user);
             form.reset();
-            navigate('/')
+            setError('');
+            navigate(from, {replace: true});
         })
-        .catch(error => console.error(error))
+        .catch(error => {
+          console.error(error);
+          setError(error.message);
+        })
 
     }
     return (
@@ -57,6 +69,9 @@ const Login = () => {
                 <label className="label">
                   <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                 </label>
+              </div>
+              <div className="form-control text-red-600">
+              <p>{error}</p>
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Login</button>
