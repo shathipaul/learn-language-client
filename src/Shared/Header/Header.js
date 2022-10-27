@@ -7,10 +7,10 @@ import { UserIcon } from '@heroicons/react/24/solid'
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
 
-    const handleLogOut = ()=> {
+    const handleLogOut = () => {
         logOut()
-        .then( () => {})
-        .catch(error=> console.error(error))
+            .then(() => { })
+            .catch(error => console.error(error))
     }
 
     return (
@@ -40,6 +40,7 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
+                <input type="checkbox" className="toggle" checked />
                     {
                         user?.uid ?
                             <>
@@ -55,7 +56,7 @@ const Header = () => {
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                { user?.photoURL ?
+                                {user?.photoURL ?
                                     <img src={user.photoURL} alt="" />
                                     :
                                     <UserIcon className="h-6 w-6 text-blue-500" />
