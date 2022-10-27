@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useLoaderData } from 'react-router-dom';
+
 
 
 const SingleCourse = () => {
 
-    const { course, setCourse } = useState([]);
+    const course = useLoaderData();
     console.log(course);
-
-    useEffect(() => {
-        fetch('http://localhost:5000/languageDetail/')
-            .then(res => res.json)
-            .data(data => console.log(data))
-    }, []);
-
 
     return (
         <div>
             <div className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col lg:flex-row">
-                    <img src='' alt="" className="max-w-sm rounded-lg shadow-2xl" />
+                    <img src={course.image_url} alt="" className="max-w-sm rounded-lg shadow-2xl" />
                     <div>
-                        <h1 className="text-5xl font-bold">Box Office News!</h1>
-                        <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                        <button className="btn btn-primary">Get Started</button>
+                        <h1 className="text-5xl font-bold">{course.title}</h1>
+                        <p className="py-6">{course.details}</p>
+                        <p className="text-2xl font-bold py-2">Price: ${course.price}</p>
                     </div>
                 </div>
             </div>
