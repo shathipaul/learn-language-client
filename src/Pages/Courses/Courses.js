@@ -1,6 +1,7 @@
 import React from 'react';
 import Category from '../Category/Category';
 import { useLoaderData } from 'react-router-dom';
+import Course from '../Course/Course';
 
 const Courses = () => {
     const courses = useLoaderData();
@@ -28,20 +29,10 @@ const Courses = () => {
                     {/* Card Loading */}
                     <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-4 mx-10 mt-10'>
                         {
-                            courses.map(course => 
-                            <div className="card w-full border">
-                            <figure className="px-5 pt-5">
-                              <img src={course.image_url} alt="Shoes" className="rounded-xl" />
-                            </figure>
-                            <div className="card-body items-center text-center">
-                              <h2 className="card-title">{course.title}</h2>
-                              <p>{course.des}</p>
-                              <h4 className='text-1xl font-bold'>Price: ${course.price}</h4>
-                              <div className="card-actions">
-                                <button className="btn btn-primary">Get Course</button>
-                              </div>
-                            </div>
-                          </div>)
+                            courses.map(course => <Course
+                                key={course.id}
+                                course={course}
+                            ></Course>)
                         }
                     </div>
                 </div>
