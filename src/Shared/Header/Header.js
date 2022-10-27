@@ -40,7 +40,11 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                <input type="checkbox" className="toggle" checked />
+                    <div className="form-control">
+                        <label className="label cursor-pointer">
+                            <input type="checkbox" className="toggle" checked />
+                        </label>
+                    </div>
                     {
                         user?.uid ?
                             <>
