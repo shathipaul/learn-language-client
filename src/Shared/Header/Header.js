@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
@@ -6,6 +6,13 @@ import { UserIcon } from '@heroicons/react/24/solid'
 
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
+    const [dark, setDark] = useState(false);
+ 
+   
+
+    const darkHandler = () => {
+        setDark(!dark);
+    };
 
     const handleLogOut = () => {
         logOut()
@@ -28,11 +35,12 @@ const Header = () => {
                             <Link className='ml-2' to='/faq'>FAQ</Link>
                         </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-xl">Learn Languages</a>
+                    <p className="btn btn-ghost normal-case text-xl">Learn Languages</p>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal p-0 ml-2">
-                        <Link to='/'>Courses</Link>
+                        <Link to='/'>Home</Link>
+                        <Link className='ml-3' to='/courses'>Courses</Link>
                         <Link className='ml-3' to='/blog'>Blog</Link>
                         <Link className='ml-3' to='/faq'>FAQ</Link>
 
@@ -40,30 +48,28 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <div className="form-control">
-                        <label className="label cursor-pointer">
-                            <input type="checkbox" className="toggle" checked />
-                        </label>
+                    <div className='mx-2'>
+                    <input type="checkbox" className="toggle" checked={dark} onChange={darkHandler} />
                     </div>
-                    {
+                   <>
+                   {
                         user?.uid ?
                             <>
                                 <button onClick={handleLogOut} className="btn btn-outline">Log out</button>
-                                <p>{user?.displayName}</p>
                             </>
                             :
                             <>
                                 <Link to='/login'><button className="btn btn-outline">Login</button></Link>
-                                <Link to='/register'><button className="btn btn-outline">Register</button></Link>
                             </>
                     }
+                   </>
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
                                 {user?.photoURL ?
-                                    <img src={user.photoURL} alt="" />
+                                    <img src={user.photoURL} title={user?.displayName} alt="" />
                                     :
-                                    <UserIcon className="h-6 w-6 text-blue-500" />
+                                    <UserIcon className="h-6 w-6 text-blue-500 mx-auto mt-2" />
                                 }
 
                             </div>
