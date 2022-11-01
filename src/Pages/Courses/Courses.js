@@ -9,7 +9,7 @@ const Courses = () => {
     const courses = useLoaderData()
 
     useEffect(() => {
-        fetch('http://localhost:5000/categories')
+        fetch('https://learn-language-server-two.vercel.app/categories')
             .then(res => res.json())
             .then(data => setCategories(data))
     }, [])

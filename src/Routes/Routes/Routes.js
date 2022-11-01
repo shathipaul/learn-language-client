@@ -23,17 +23,17 @@ export const routes = createBrowserRouter([
             {
                 path: 'courses',
                 element: <Courses></Courses>,
-                loader: () => fetch('http://localhost:5000/courses/'),
+                loader: () => fetch('https://learn-language-server-two.vercel.app/courses/'),
             },
             {
                 path: '/courses/:id',
                 element: <Courses></Courses>,
-                loader: ({ params }) => fetch(`http://localhost:5000/courses/${params.id}`)
+                loader: ({ params }) => fetch(`https://learn-language-server-two.vercel.app/courses/${params.id}`)
             },
             {
                 path: 'course/:id',
                 element: <PrivateRoute><SingleCourse></SingleCourse></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/course/${params.id}`)
+                loader: ({ params }) => fetch(`https://learn-language-server-two.vercel.app/course/${params.id}`)
             },
             {
                 path: 'blog',
@@ -51,6 +51,6 @@ export const routes = createBrowserRouter([
                 path: 'register',
                 element: <Register></Register>
             }
-        ]       
+        ]
     }
 ])
